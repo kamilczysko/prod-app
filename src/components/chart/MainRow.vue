@@ -35,9 +35,10 @@ export default {
 ul {
     /* width: 0px; */
     padding: 0;
-    position: relative;
+    /* position: relative; */
     width: 100%;
     border-bottom: 2px solid rgb(124, 124, 124);
-    overflow:hidden;
+    /* overflow:hidden; */
+    z-index: 0;
 }
 </style>

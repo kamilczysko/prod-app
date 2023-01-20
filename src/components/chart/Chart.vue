@@ -117,7 +117,7 @@ export default {
       console.log("end Time: "+ this.endTime)
       console.log("actual Time: "+ actualTime)
 
-      document.getElementById("actual-time").style.left = a*100+7.5+"vw"
+      document.getElementById("actual-time").style.left = a*100+"vw"
     }
  }
 }
@@ -172,7 +172,7 @@ export default {
     border-left: 2px dashed rgb(129, 7, 7);
     top: 1.5vw;
     width: 1vw;
-    left: 10vw;
+    margin-left: 7vw;
     z-index: 1;
     cursor: pointer;
 

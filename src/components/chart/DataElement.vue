@@ -1,7 +1,7 @@
 <template>
     <div class="data-element" :style="{background: color, width: getWidth, left: getPosition}" v-on:mouseover="showTooltip" v-on:mouseout="hideTooltip">
         <p>id: {{ identifier }}</p>  
-            <div class="tooltip" v-if="tooltipVisible">
+        <div class="tooltip" v-if="tooltipVisible">
                 <ul>
                     <li>
                         <span class="header">id:</span>
@@ -52,7 +52,7 @@ export default {
 }
 </script>
 
-<style scoped>
+<style>
 
 .data-element {
     position: absolute;
@@ -86,15 +86,13 @@ export default {
 }
 
 .tooltip {
-    position: absolute;
+    position: relative;
     background: black;
     border: 1px solid black;
     color: rgb(255, 255, 255);
     align-items: center;
-    justify-content: space-around;
+    justify-content: flex-start;
     border-radius: 5px;
-    left: .23vw;
-    top: .5vw;
     font-weight: 200;
     width: 10vw;
     z-index: 100000;

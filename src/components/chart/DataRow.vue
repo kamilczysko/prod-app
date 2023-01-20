@@ -100,6 +100,5 @@ export default {
 
 .data {
     position: relative;
-    overflow: hidden;
 }
 </style>

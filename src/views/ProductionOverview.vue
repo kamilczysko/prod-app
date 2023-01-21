@@ -125,6 +125,7 @@ nav {
     display: flex;
     justify-content: space-around;
     align-items: center;
+    margin-left: 3vw;
 }
 
 .filter-items {
@@ -159,6 +160,13 @@ nav {
 
 .search-wrapper input:focus {
     outline: none;
+
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
 }
 
 .search-wrapper button{
@@ -180,6 +188,7 @@ nav {
     align-items: center;
     justify-content: space-around;
     margin-left: 2vw;
+    margin-right: 2vw;
 }
 
 .date-range .separator {

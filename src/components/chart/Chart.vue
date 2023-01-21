@@ -2,7 +2,7 @@
   <div class="chart" id="chart">
     <div class="time" id="time"></div>
     <div class="actual-time" id="actual-time"> 
-      <p>{{ actualTime }}</p>
+      <p>{{ actualTimeCharacteristic }}</p>
     </div>
     <MainRow/>
     <MainRow/>
@@ -27,6 +27,7 @@ export default {
       endTime: this.getTimestamp(this.endDate),
       timeDivision: this.timeDivisionInHours,
       actualTime: this.timeConverter(this.getActualTimeStamp()),
+      actualTimeCharacteristic: this.timeConverterOnlyHoursWithSeconds(this.getActualTimeStamp()),
       resizeFactor: 0.85
     }
  }, 
@@ -38,8 +39,9 @@ export default {
  }, 
  created() {
   setInterval(() => {
-    this.actualTime = this.timeConverter(this.getActualTimeStamp());
     this.setActutalTimeCharacteristicPosition();
+    this.actualTimeCharacteristic = this.timeConverterOnlyHoursWithSeconds(this.getActualTimeStamp());
+    this.actualTime = this.timeConverter(this.getActualTimeStamp());
   }, 1000);
             
 
@@ -108,6 +110,14 @@ export default {
       var hour = a.getHours();
       var min = a.getMinutes();
       var time = ("0" + hour).slice(-2) + ' : ' + ("0" + min).slice(-2);
+      return time;
+    },
+    timeConverterOnlyHoursWithSeconds(UNIX_timestamp){
+      var a = new Date(UNIX_timestamp * 1000);
+      var hour = a.getHours();
+      var min = a.getMinutes();
+      var sec = a.getSeconds();
+      var time = ("0" + hour).slice(-2) + ' : ' + ("0" + min).slice(-2) + ' : '+("00" + sec).slice(-2);
       return time;
     },
     getTodayTimestamp() {

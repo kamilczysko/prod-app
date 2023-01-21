@@ -9,7 +9,7 @@
                     <DataElement identifier="111" width="10" left="20" color="#F45B69"/>
                     <DataElement identifier="222" width="5" left="30" color="#22181C"/>
                     <DataElement identifier="333" width="19" left="45" color="#F5CB5C"/>
-                    <DataElement identifier="333" width="35" left="70" color="#22181C"/>
+                    <!-- <DataElement identifier="333" width="35" left="70" color="#22181C"/> -->
                 </div>
     </li>
 </template>

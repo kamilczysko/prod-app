@@ -293,5 +293,6 @@ nav {
     width: 6vw;
     color: rgb(105, 105, 105);
     border: none;
+    cursor: pointer;
 }
 </style>

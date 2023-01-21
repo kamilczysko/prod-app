@@ -2,7 +2,7 @@
   <div class="chart" id="chart">
     <div class="time" id="time"></div>
     <div class="actual-time" id="actual-time"> 
-      <p>{{ timeConverterOnlyHours(getActualTimeStamp()) }}</p>
+      <p>{{ actualTime }}</p>
     </div>
     <MainRow/>
     <MainRow/>
@@ -38,9 +38,9 @@ export default {
  }, 
  created() {
   setInterval(() => {
-    this.setActutalTimeCharacteristicPosition();
     this.actualTime = this.timeConverter(this.getActualTimeStamp());
-  }, 60*1000);
+    this.setActutalTimeCharacteristicPosition();
+  }, 1000);
             
 
  },

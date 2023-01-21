@@ -2,7 +2,7 @@
   <div class="chart" id="chart">
     <div class="time" id="time"></div>
     <div class="actual-time" id="actual-time"> 
-      <p>{{ actualTime }}</p>
+      <p>{{ timeConverterOnlyHours(getActualTimeStamp()) }}</p>
     </div>
     <MainRow/>
     <MainRow/>
@@ -26,31 +26,34 @@ export default {
       startTime: this.getTimestamp(this.startDate),
       endTime: this.getTimestamp(this.endDate),
       timeDivision: this.timeDivisionInHours,
-      actualTime: this.timeConverter(this.getActualTimeStamp())
+      actualTime: this.timeConverter(this.getActualTimeStamp()),
+      resizeFactor: 0.85
     }
  }, 
  mounted() {
     this.initTimeLineBackground(this.timeDivision);
     this.setActutalTimeCharacteristicPosition();
+    window.addEventListener("resize", this.initTimeLineBackground(this.timeDivision));
+
  }, 
  created() {
   setInterval(() => {
     this.setActutalTimeCharacteristicPosition();
     this.actualTime = this.timeConverter(this.getActualTimeStamp());
-  }, 1000)
+  }, 60*1000);
+            
+
  },
  watch: {
     timeDivisionInHours (newTimeDivision) {
       this.initTimeLineBackground(newTimeDivision)
     },
     startDate(newTime) {
-      console.log("startTimechange: "+newTime)
       this.startTime = this.getTimestamp(newTime)
       this.initTimeLineBackground(this.timeDivision)
     },
     endDate(newTime) {
       this.endTime = this.getTimestamp(newTime)
-      console.log("endTimechange: "+newTime)
       this.initTimeLineBackground(this.timeDivision)
     }
  },
@@ -62,7 +65,7 @@ export default {
     timeContainer.style.height = document.getElementsByClassName("chart")[0].scrollHeight+"px"
     document.getElementsByClassName("actual-time")[0].style.height = document.getElementsByClassName("chart")[0].scrollHeight+"px"
 
-    const clientWidth = document.getElementById("chart").clientWidth;
+    const clientWidth = document.getElementById("chart").clientWidth * this.resizeFactor;
 
       const hourlyRange = (this.endTime - this.startTime) / 60 / 60;
       const numberOfTimeDivisions = Math.round(hourlyRange / timeDivision);
@@ -79,7 +82,11 @@ export default {
 
           const timeLabel = document.createElement('p');
           timeLabel.classList.add("time-label");
-          timeLabel.innerText = this.timeConverter(actualTimeLabel);
+          if(i == 0 || i == numberOfTimeDivisions){
+            timeLabel.innerText = this.timeConverter(actualTimeLabel);
+          } else {
+            timeLabel.innerText = this.timeConverterOnlyHours(actualTimeLabel);
+          }
 
           singleTimeCharacteristic.appendChild(timeLabel);
 
@@ -93,8 +100,14 @@ export default {
       var date = a.getDate();
       var hour = a.getHours();
       var min = a.getMinutes();
-      var sec = a.getSeconds();
-      var time = date + '.' + month + '.' + year + ' ' + ("0" + hour).slice(-2) + ':' + ("0" + min).slice(-2) + "::" + ("0" + sec).slice(-2);
+      var time = date + '.' + month + '.' + year + ' ' + ("0" + hour).slice(-2) + ':' + ("0" + min).slice(-2);
+      return time;
+    },
+    timeConverterOnlyHours(UNIX_timestamp){
+      var a = new Date(UNIX_timestamp * 1000);
+      var hour = a.getHours();
+      var min = a.getMinutes();
+      var time = ("0" + hour).slice(-2) + ' : ' + ("0" + min).slice(-2);
       return time;
     },
     getTodayTimestamp() {
@@ -115,7 +128,7 @@ export default {
       return this.timeConverter(Math.round(+new Date()/1000));
     },
     setActutalTimeCharacteristicPosition() {
-      const clientWidth = document.getElementById("chart").clientWidth;
+      const clientWidth = document.getElementById("chart").clientWidth * this.resizeFactor;
       const actualTimeTimestamp = this.getActualTimeStamp()
       document.getElementById("actual-time").style.left = ((actualTimeTimestamp - this.startTime) / (this.endTime - this.startTime)) * clientWidth + "px"
     
@@ -167,6 +180,8 @@ export default {
     font-size: .5vw;
     overflow: hidden;
     position: absolute;
+    /* white-space: nowrap; */
+    min-width: 2vw;
 }
 
 .actual-time {
@@ -177,13 +192,12 @@ export default {
     margin-left: 8vw;
     z-index: 1;
     cursor: pointer;
-
 }
 
 .actual-time p {
   top: .5vw;
   font-size: .6vw;
-  width: fit-content;
+  white-space: nowrap;
   position: sticky;
 
 }

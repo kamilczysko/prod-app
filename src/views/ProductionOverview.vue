@@ -39,7 +39,7 @@
                     </div>
                 </div>
                 <div class="scale">
-                    <p class="scale-label">Time division:</p>
+                    <p class="scale-label">Time division: {{ timeDivisionInHours }} H</p>
                     <div class="scale-buttons">
                         <button class="change-scale" :onClick="increaseTimeScale">
                             <span>+</span>
@@ -111,7 +111,7 @@ export default {
 <style>
 nav {
     height: 9.5vh;
-    width:100%;
+    /* width:100%; */
     border-bottom: 1px solid black;
     background: white;
     z-index: 100;
@@ -241,7 +241,7 @@ nav {
     font-size: 1vw;
     margin-bottom: .4vw;
     text-align: center;
-    width: 6vw;
+    width: 10vw;
 }
 
 .change-scale {

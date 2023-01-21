@@ -16,17 +16,9 @@ const data = [
     {
         id: 4,
         label: "Workstations",
-        link: null,
+        link: "/workstations",
         icon: "manufacturing.svg",
-        subitems: [
-            {
-                id: 41,
-                label: "Maintanence",
-                link: "/maintanece",
-                icon: "calendar.svg",
-                subitems: null
-            }
-        ]
+        subitems: null
     },
     {
         id: 2,

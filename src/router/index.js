@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import ProductionOverview from '../views/ProductionOverview.vue'
+import Workstations from '../views/Workstations.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -12,6 +13,10 @@ const router = createRouter({
       path: '/production-overview',
       name: 'production-overview',
       component: ProductionOverview
+    }, {
+      path: '/workstations',
+      name: 'workstatinos',
+      component: Workstations
     },
     {
       // path: '/about',

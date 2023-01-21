@@ -18,7 +18,7 @@ export default {
 <style>
     .content {
         display: grid;
-        grid-template-columns: 2fr 8fr;
+        grid-template-columns: 1fr 25fr;
         background: white;
     }
 </style>

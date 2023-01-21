@@ -77,12 +77,13 @@ export default {
         cursor: pointer;
         background: none;
         border-radius: 5px;
+        /* width: 5vw; */
     }
 
     p{
-        font-size: 1.4vw;
+        font-size: .8vw;
         font-weight: 200;
-        /* opacity: 50%; */
+        width: 5vw;
         color: #878888;
         overflow-wrap: break-word;
     }
@@ -109,33 +110,33 @@ export default {
         font-weight: 300;
     }
 
-    .active button{
+    .active button { 
         background: #D9D9D9;
     }
 
-    .active p{
+    .active p {
         color: black;
         font-weight: 500;
         text-decoration: underline ;
     }
 
-    .active img{
+    .active img {
         opacity: 100% ;
         filter: invert(0%) sepia(0%) saturate(13%) hue-rotate(292deg) brightness(94%) contrast(106%);
     }
 
-    .subitemactive button{
+    .subitemactive button {
         background: #008DAF;
     }
 
-    .subitemactive p{
+    .subitemactive p { 
         color: black;
         font-weight: 500 !important;
         text-decoration: underline ;
         overflow-wrap: break-word;
     }
 
-    .subitemactive img{
+    .subitemactive img {
         opacity: 100% !important;
         filter: invert(0%) sepia(0%) saturate(13%) hue-rotate(292deg) brightness(94%) contrast(106%);
     }
@@ -145,13 +146,12 @@ export default {
         display: flex !important;
     }
 
-    .subitem{
+    .subitem {
         display: none;
         border: none;
-        margin-left: 1vw;
         margin-top: .3vw;
-        width: 90%;
-        height: 3.5vw;
+        width: 80%;
+        height: 2.5vw;
     }
 
     .subitem img {
@@ -159,7 +159,7 @@ export default {
     }
 
     .subitem p {
-        font-size: 1vw;
+        font-size: .8vw;
         font-weight: 100;
         text-decoration: none;
     }

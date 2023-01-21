@@ -151,7 +151,7 @@ export default {
 
 .chart {
     height: 100vh;
-    width: 80vw;
+    width: 100%;
     overflow:scroll;
     z-index: 101;
     position: relative;

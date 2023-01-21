@@ -55,7 +55,7 @@ export default {
     }
 
     .sidemenu .logo h2 {
-        font-size: 1.8vw;
+        font-size: 1vw;
         font-weight: 100;
         margin-left: .5vw;
         font-weight: 300;
@@ -63,7 +63,7 @@ export default {
     }
 
     .sidemenu .logo img {
-        width: 2.8vw;
+        width: 2vw;
         height: auto;
         filter: invert(0%) sepia(1%) saturate(7491%) hue-rotate(36deg) brightness(111%) contrast(98%);
             }

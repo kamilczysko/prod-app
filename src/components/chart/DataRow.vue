@@ -4,7 +4,7 @@
                     <img :src=getIconUrl(icon)>
                     <h3>{{ title }}</h3>
                 </div>
-                <div class="data">
+                <div class="data" >
                     <DataElement identifier="444" width="19" left="1" color="#F6E8EA"/>
                     <DataElement identifier="111" width="10" left="20" color="#F45B69"/>
                     <DataElement identifier="222" width="5" left="30" color="#22181C"/>
@@ -70,7 +70,6 @@ export default {
     font-size: 1vw;
     font-weight: 300;
 }
-
 .title {
     position: sticky;
     left: 0;

@@ -24,19 +24,19 @@ export default {
  data(){
   return {
       startTime: this.getTodayTimestamp(),
-      endTime: this.getTodayTimestamp()+24*60*60,
+      endTime: this.getTodayTimestamp() + 24 * 60 * 60,
       timeDivision: this.timeDivisionInHours,
-      actualTime: this.getActualTime()
+      actualTime: this.timeConverter(this.getActualTimeStamp())
     }
  }, 
  mounted() {
     this.initTimeLineBackground(this.timeDivision);
-    this.getActutalTimePosition();
+    this.setActutalTimeCharacteristicPosition();
  }, 
  created() {
   setInterval(() => {
-    this.getActutalTimePosition();
-    this.actualTime = this.getActualTime();
+    this.setActutalTimeCharacteristicPosition();
+    this.actualTime = this.timeConverter(this.getActualTimeStamp());
   }, 1000)
  },
  watch: {
@@ -46,39 +46,34 @@ export default {
  },
  methods: {
   initTimeLineBackground(timeDivision) {
-      document.getElementById("time").innerHTML = ""
+    document.getElementById("time").innerHTML = ""
 
-      const hourlyRange = (this.endTime - this.startTime)/60/60;
-      const hourlyDivision = timeDivision;
-      const mark = Math.round(hourlyRange/hourlyDivision);
-      console.log(mark)
+    const timeContainer = document.getElementById("time")
+    timeContainer.style.height = document.getElementsByClassName("chart")[0].scrollHeight+"px"
+    document.getElementsByClassName("actual-time")[0].style.height = document.getElementsByClassName("chart")[0].scrollHeight+"px"
 
-      const clientWidth = document.getElementById("chart").clientWidth;
-      const timeContainer = document.getElementById("time")
-      let maxWidth = clientWidth;
-      console.log("width: "+maxWidth)
+    const clientWidth = document.getElementById("chart").clientWidth;
 
-      const timePartWidth = (maxWidth/mark)
-      console.log("part: "+timePartWidth)
-
+      const hourlyRange = (this.endTime - this.startTime) / 60 / 60;
+      const numberOfTimeDivisions = Math.round(hourlyRange / timeDivision);
+      const widthOfSingleTimeDivision = (clientWidth / numberOfTimeDivisions)
       let actualTimeLabel = this.startTime;
-      timeContainer.style.height = document.getElementsByClassName("chart")[0].scrollHeight+"px"
-      document.getElementsByClassName("actual-time")[0].style.height = document.getElementsByClassName("chart")[0].scrollHeight+"px"
-      for(let i = 0; i <= mark; i++) {      
-          const timePart = document.createElement('div');
-          timePart.classList.add("time-part");
+      
+      for(let i = 0; i <= numberOfTimeDivisions; i++) {      
+          const singleTimeCharacteristic = document.createElement('div');
+          singleTimeCharacteristic.classList.add("time-part");
 
-          timePart.style.left = timePartWidth*i+"px";
-          console.log("time: "+ timePartWidth*i+"px")
-
-          timeContainer.appendChild(timePart);
+          singleTimeCharacteristic.style.left = widthOfSingleTimeDivision * i + "px";
+          
+          timeContainer.appendChild(singleTimeCharacteristic);
 
           const timeLabel = document.createElement('p');
           timeLabel.classList.add("time-label");
           timeLabel.innerText = this.timeConverter(actualTimeLabel);
-          timePart.appendChild(timeLabel);
 
-          actualTimeLabel += hourlyDivision*60*60;
+          singleTimeCharacteristic.appendChild(timeLabel);
+
+          actualTimeLabel += timeDivision * 60 * 60;
       }
     },
     timeConverter(UNIX_timestamp){
@@ -89,7 +84,7 @@ export default {
       var hour = a.getHours();
       var min = a.getMinutes();
       var sec = a.getSeconds();
-      var time = date + '.' + month + '.' + year + ' ' + hour + ':' + min + "::" + sec;
+      var time = date + '.' + month + '.' + year + ' ' + ("0" + hour).slice(-2) + ':' + ("0" + min).slice(-2) + "::" + ("00" + sec).slice(-2);
       return time;
     },
     getTodayTimestamp() {
@@ -99,19 +94,17 @@ export default {
     },
     getActualTimeStamp(){
       const date = new Date()
-      // date.setUTCHours(7, 45, 0, 0);
+      // date.setUTCHours(2, 0, 0, 0);
 
       return Math.round(date/1000)
     },
-    getActualTime() {
+    getActualTimeLabel() {
       return this.timeConverter(Math.round(+new Date()/1000));
     },
-    getActutalTimePosition() {
+    setActutalTimeCharacteristicPosition() {
       const clientWidth = document.getElementById("chart").clientWidth;
-
-      const actualTime = this.getActualTimeStamp()
-      const a = (actualTime - this.startTime) / (this.endTime - this.startTime)
-      document.getElementById("actual-time").style.left = (a)*clientWidth +"px"
+      const actualTimeTimestamp = this.getActualTimeStamp()
+      document.getElementById("actual-time").style.left = ((actualTimeTimestamp - this.startTime) / (this.endTime - this.startTime)) * clientWidth + "px"
     
     }
  }
@@ -158,7 +151,7 @@ export default {
 
 .time-label{
     font-weight: 100;
-    font-size: .3vw;
+    font-size: .5vw;
     overflow: hidden;
     position: absolute;
 }

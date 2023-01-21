@@ -143,7 +143,7 @@ nav {
 .date-range {
     display: flex;
     align-items: center;
-    justify-content: baseline;
+    justify-content: space-around;
     margin-left: 2vw;
 }
 
@@ -152,19 +152,22 @@ nav {
     height: 3px;
     background-color: gray;
     margin: 1vw;
+    margin-right: 2vw;
 }
 
 .date-range .date {
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: space-around;
     font-weight: 100;
     height: 1.6vw;
+    cursor: pointer;
 }
 
 .date-range .date p {
     font-weight: lighter;
     font-size: 1.3vw;
+    width: 6vw;
 }
 
 .date-range span {
@@ -178,11 +181,10 @@ nav {
 .date img {
     width: 1.3vw;
     height: auto;
-    margin-right: .4vw;
 }
 
-.date {
-    cursor: pointer;
+.date-range .date:hover {
+    font-weight: 600;
 }
 
 .scale-buttons {

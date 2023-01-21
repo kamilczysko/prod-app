@@ -17,14 +17,14 @@
 import MainRow from "./MainRow.vue"
 export default {
  name: "Chart",
- props: ["timeDivisionInHours"],
+ props: ["timeDivisionInHours", "startDate", "endDate"],
  components: {
     MainRow
  },
  data(){
   return {
-      startTime: this.getTodayTimestamp(),
-      endTime: this.getTodayTimestamp() + 24 * 60 * 60,
+      startTime: this.getTimestamp(this.startDate),
+      endTime: this.getTimestamp(this.endDate),
       timeDivision: this.timeDivisionInHours,
       actualTime: this.timeConverter(this.getActualTimeStamp())
     }
@@ -40,8 +40,18 @@ export default {
   }, 1000)
  },
  watch: {
-    timeDivisionInHours (newTime, oldTime) {
-      this.initTimeLineBackground(newTime)
+    timeDivisionInHours (newTimeDivision) {
+      this.initTimeLineBackground(newTimeDivision)
+    },
+    startDate(newTime) {
+      console.log("startTimechange: "+newTime)
+      this.startTime = this.getTimestamp(newTime)
+      this.initTimeLineBackground(this.timeDivision)
+    },
+    endDate(newTime) {
+      this.endTime = this.getTimestamp(newTime)
+      console.log("endTimechange: "+newTime)
+      this.initTimeLineBackground(this.timeDivision)
     }
  },
  methods: {
@@ -84,13 +94,16 @@ export default {
       var hour = a.getHours();
       var min = a.getMinutes();
       var sec = a.getSeconds();
-      var time = date + '.' + month + '.' + year + ' ' + ("0" + hour).slice(-2) + ':' + ("0" + min).slice(-2) + "::" + ("00" + sec).slice(-2);
+      var time = date + '.' + month + '.' + year + ' ' + ("0" + hour).slice(-2) + ':' + ("0" + min).slice(-2) + "::" + ("0" + sec).slice(-2);
       return time;
     },
     getTodayTimestamp() {
       const today = new Date()
       today.setUTCHours(0, 0, 0, 0);
       return Math.round(today/1000)
+    },
+    getTimestamp(date) {
+      return Math.round(date/1000)
     },
     getActualTimeStamp(){
       const date = new Date()

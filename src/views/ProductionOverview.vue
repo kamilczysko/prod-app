@@ -7,15 +7,28 @@
                         <div>
                             <div class="date">
                                 <img src="../assets/icons/calendar.svg">
-                                <p>22.09.23</p>
+                                <div class="datepicker">
+                                    <datepicker
+                                        v-model="startDate"
+                                        :clearable="false"
+                                        :upperLimit="endDate"
+                                    />
+                                </div>
                             </div>
                             <span>Start day</span>
                         </div>
+                        
                         <div class="separator"></div>
                         <div>
                             <div class="date">
                                 <img src="../assets/icons/calendar.svg">
-                                <p>23.09.23</p>
+                                <div class="datepicker">
+                                    <datepicker
+                                        v-model="endDate"
+                                        :clearable="false"
+                                        :lowerLimit="startDate"
+                                    />
+                                </div>
                             </div>
                             <span>End day</span>
                         </div>
@@ -25,8 +38,8 @@
                         <button class="serach-button"></button>
                     </div>
                 </div>
-                <div>
-                    <p class="scale-label">scale:</p>
+                <div class="scale">
+                    <p class="scale-label">Time division:</p>
                     <div class="scale-buttons">
                         <button class="change-scale" :onClick="increaseTimeScale">
                             <span>+</span>
@@ -38,24 +51,39 @@
                 </div>
             </div>
         </nav>
-        <Chart :timeDivisionInHours="getTimeScale"/>
+        <Chart :timeDivisionInHours="getTimeScale" :startDate="startDate" :endDate="endDate"/>
     </div>
 </template>
 
 <script>
 import Chart from "@/components/chart/Chart.vue"
+import Datepicker from "vue3-datepicker"
+
 export default {
     name: "ProductionOverview",
     components: {
-        Chart
+        Chart,
+        Datepicker
     },
     data() {
         return {
             timeDivisionInHours: 1,
-            timeFactor: 0.25
+            timeFactor: 0.25,
+            startDate: this.getBegginingOfActualDay(),
+            endDate: this.getEndOfNextDay()
         }
     },
     methods: {
+        getBegginingOfActualDay(){
+            const today = new Date()
+            today.setUTCHours(0,0,0)
+            return today
+        },
+        getEndOfNextDay(){
+            let today = new Date()
+            today.setUTCHours(23,59,59)
+            return today
+        },
         increaseTimeScale() {
             this.timeDivisionInHours += this.timeFactor
         },
@@ -63,6 +91,13 @@ export default {
             if(this.timeDivisionInHours > this.timeFactor){
                 this.timeDivisionInHours -= this.timeFactor
             }
+        },
+        timeConverter(a){
+            var year = a.getFullYear();
+            var month = a.getMonth()+1;
+            var date = a.getDate();
+            var time = ("00" + date).slice(-2) + '.' + ("00" + month).slice(-2) + '.' + year;
+            return time;
         }
     },
     computed: {
@@ -166,7 +201,7 @@ nav {
 
 .date-range .date p {
     font-weight: lighter;
-    font-size: 1.3vw;
+    font-size: 1.1vw;
     width: 6vw;
 }
 
@@ -187,6 +222,13 @@ nav {
     font-weight: 600;
 }
 
+.scale {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+}
+
 .scale-buttons {
     display: flex;
     justify-content: space-around;
@@ -199,7 +241,7 @@ nav {
     font-size: 1vw;
     margin-bottom: .4vw;
     text-align: center;
-
+    width: 6vw;
 }
 
 .change-scale {
@@ -232,4 +274,24 @@ nav {
     
 }
 
+.datepicker {
+    z-index: 100000;
+}
+
+.v3dp__popout[data-v-2e128338] {
+    z-index: 10;
+    position: absolute;
+    /* bottom: 0; */
+    text-align: center;
+    width: fit-content;
+    padding: 1vw;
+}
+
+.v3dp__input_wrapper input{
+    font-weight: lighter;
+    font-size: 1.1vw;
+    width: 6vw;
+    color: rgb(105, 105, 105);
+    border: none;
+}
 </style>

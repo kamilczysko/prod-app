@@ -27,28 +27,7 @@
                 </tr>
             </thead>
             <tbody class="data" id="data">
-                <tr>
-                    <td>123</td>
-                    <td>Mill 1</td>
-                    <td class="comment">Machine working well when not in repair</td>
-                    <td>Jup</td>
-                    <td class="action">
-                        <button>&#x270E;</button>
-                        <button>&#9842;</button>
-                    </td>
-                </tr>
-                <tr>
-                    <td>123</td>
-                    <td>Mill 1</td>
-                    <td class="comment">Machine working well when not in repair</td>
-                    <td>Jup</td>
-                    <td>
-                        <div class="action">
-                            <button >&#x270E;</button>
-                            <button>&#9842;</button>
-                        </div>
-                    </td>
-                </tr>
+                <WorkstationRow v-for="d in data" :key=d.id :id=d.id :name=d.name :comment=d.comment :inRepair=d.inRepair />
             </tbody>
         </table> 
         <button class="add" v-on:click="addNewMachine">&plus;</button>
@@ -56,71 +35,31 @@
 </template>
 
 <script>
+import WorkstationRow from '../components/table/WorkstationRow.vue';
 export default {
     name: "Workstations",
+    components: {
+        WorkstationRow
+    },
     methods: {
         addNewMachine() {
-            let tr = document.createElement("tr");
-            let td = document.createElement("td");
-            td.innerText = "123"
-            tr.appendChild(td)
-
-            td = document.createElement("td")
-            td.innerText = "Mill 2"
-            tr.appendChild(td)
-
-            td = document.createElement("td")
-            td.classList.add("comment")
-            td.innerText = "Some comment bro"
-            tr.appendChild(td)
-
-            td = document.createElement("td")
-            let div = document.createElement("div")
-            div.classList.add("action")
-
-            let editButton = document.createElement("button")
-            editButton.innerText = "&#x270E;"
-            div.appendChild(editButton)
-
-            let removeButton = document.createElement("button")
-            removeButton.innerText = "&#9842;"
-            div.appendChild(removeButton)
-            td.appendChild(div)
-            tr.appendChild(td)
-
-            document.getElementById("data").appendChild(tr)
+            this.data.push(
+                {id: "91992", name: "drill", comment: "Machine working well when not in repair", inRepair: "Yes"}
+            )
+        }
+    },
+    data() {
+        return {
+            data: [
+                {id: "1234", name: "mill", comment: "Machine working well when not in repair", inRepair: "No"},
+                {id: "4544", name: "lathe", comment: "Machine working well when not in repair", inRepair: "Yes"}
+            ]
         }
     }
 }
 </script>
 
 <style scoped>
-.action {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    height: 3vw;
-
-}
-button {
-    border: none;
-    background: none;
-    cursor: pointer;
-    width: 2vw;
-    height: 2vw;
-}
-
-button:hover {
-    font-weight: 200;
-    background: rgb(255, 236, 236);
-    border-radius: 20px;
-}
-
-button:active {
-    font-weight: 500;
-    color: red;
-}
 nav {
     height: 9.5vh;
     /* width:100%; */
@@ -141,18 +80,6 @@ table {
     padding: 0px;
     border-collapse: separate;
     border-spacing: 0 .5vw;
-}
-.data tr { 
-    margin-top: 1vw;
-    height: 3vw;
-    box-shadow: 1px 1px 3px black;
-    background: rgb(246, 246, 246);
-    border-spacing: .3vw;
-}
-
-.data tr:hover { 
-    box-shadow: 1px 1px 5px black;
-    background: rgb(238, 238, 238);
 }
 
 th {
@@ -231,6 +158,8 @@ input::-webkit-inner-spin-button {
     align-items: center;
     justify-content: center;
     margin:auto;
+    border: none;
+    background: none;
 }
 
 .add:active {

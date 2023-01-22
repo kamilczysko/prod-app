@@ -2,7 +2,7 @@
     <div class="space">
         <nav>
             <div class="search-wrapper">
-                <input type="number" placeholder="Filter by workstation identifier">
+                <input type="number" placeholder="Filter by stuff identifier">
                 <button class="serach-button"></button>
             </div>
         </nav>
@@ -37,7 +37,7 @@
 <script>
 import WorkstationRow from '../components/table/WorkstationRow.vue';
 export default {
-    name: "Workstations",
+    name: "Storage",
     components: {
         WorkstationRow
     },

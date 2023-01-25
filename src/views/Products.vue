@@ -1,8 +1,9 @@
 <template>
     <div class="space">
+        <Wizard :visible="productWizardVisibility" v-on:off="hideProductWizard" v-on:add="send" v-on:update="update" :wizard="wizard" :input="wizardData"/>
         <nav>
             <div class="search-wrapper">
-                <input type="number" placeholder="Filter by workstation identifier">
+                <input type="number" placeholder="Filter by product's name">
                 <button class="serach-button"></button>
             </div>
         </nav>
@@ -16,10 +17,10 @@
                             Name
                     </th>
                     <th>
-                            Descripion
+                            Price
                     </th>
                     <th>
-                            Available
+                            Descripion
                     </th>
                     <th>
                             Action
@@ -27,39 +28,71 @@
                 </tr>
             </thead>
             <tbody class="data" id="data">
-                <WorkstationRow v-for="d in data" :key=d.id :id=d.id :name=d.name :comment=d.comment :inRepair=d.inRepair />
+                <ProductRow v-for="d in data" :key=d.id :id=d.id :name=d.name :description=d.description :price=d.price :currency=d.currency v-on:edit="edit"/>
             </tbody>
         </table> 
-        <button class="add" v-on:click="addNewMachine">&plus;</button>
+        <button class="add" v-on:click="addProduct">&plus;</button>
     </div>       
 </template>
 
 <script>
-import WorkstationRow from '../components/table/WorkstationRow.vue';
+import ProductRow from '../components/table/ProductRow.vue';
+import Wizard from '../components/wizard/Wizard.vue'
 export default {
-    name: "Workstations",
+    name: "Products",
     components: {
-        WorkstationRow
+        ProductRow,
+        Wizard
     },
     methods: {
-        addNewMachine() {
-            this.data.push(
-                {id: "91992", name: "drill", comment: "Machine working well when not in repair", inRepair: "Yes"}
-            )
+        send(data){
+            this.data.push({id: "11", name: data.name, description: data.description, price: data.price, currency:"$"},)
+            this.productWizardVisibility = false;
+        },
+        addProduct() {
+            this.wizardData = null;
+            this.productWizardVisibility = true;
+        },
+        hideProductWizard() {
+            this.productWizardVisibility = false;
+        },
+        edit(data) {
+            this.wizardData = data;
+            this.productWizardVisibility = true;
+        },
+        update(data) {
+            console.log(data)
+            const id = data.id;
+            let element = Array.from(this.data).filter(d => d.id == id)[0];
+            element.name = data.result.name;
+            element.description = data.result.description;
+            element.price = data.result.price;
+            this.productWizardVisibility = false;
         }
     },
     data() {
         return {
+            productWizardVisibility: false,
+            wizardData: null,
             data: [
-                {id: "1234", name: "mill", comment: "Machine working well when not in repair", inRepair: "No"},
-                {id: "4544", name: "lathe", comment: "Machine working well when not in repair", inRepair: "Yes"}
-            ]
+                {id: "11", name: "glass", description: "wututut", price: 44, currency:"$"},
+                {id: "44", name: "doll", description: "fefef", price: 11, currency:"$"}
+            ],
+            wizard: {
+                header: "New Product",
+                fields: [
+                    {id: 1, label: "Product name", type: "text", name: "name"},
+                    {id: 2, label: "Description", type: "textArea", name: "description"},
+                    {id: 3, label: "Price", type: "number", name: "price"}
+                ]
+            }
         }
     }
 }
 </script>
 
 <style scoped>
+
 nav {
     height: 9.5vh;
     /* width:100%; */

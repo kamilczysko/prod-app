@@ -153,7 +153,7 @@ input::-webkit-inner-spin-button {
 .add {
     width: 3vw;
     height: 3vw;
-    font-size: 3vw;
+    font-size: 2vw;
     display: flex;
     align-items: center;
     justify-content: center;

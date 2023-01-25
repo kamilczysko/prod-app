@@ -2,7 +2,7 @@
     <div class="space">
         <nav>
             <div class="search-wrapper">
-                <input type="number" placeholder="Filter by workstation identifier">
+                <input type="number" placeholder="Filter by stuff identifier">
                 <button class="serach-button"></button>
             </div>
         </nav>
@@ -19,10 +19,7 @@
                             Descripion
                     </th>
                     <th>
-                            Available
-                    </th>
-                    <th>
-                            Action
+                            Price 
                     </th>
                 </tr>
             </thead>
@@ -37,7 +34,7 @@
 <script>
 import WorkstationRow from '../components/table/WorkstationRow.vue';
 export default {
-    name: "Workstations",
+    name: "Storage",
     components: {
         WorkstationRow
     },
@@ -153,7 +150,7 @@ input::-webkit-inner-spin-button {
 .add {
     width: 3vw;
     height: 3vw;
-    font-size: 2vw;
+    font-size: 3vw;
     display: flex;
     align-items: center;
     justify-content: center;

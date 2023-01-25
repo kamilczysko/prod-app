@@ -3,6 +3,8 @@ import ProductionOverview from '../views/ProductionOverview.vue'
 import Workstations from '../views/Workstations.vue'
 import Orders from '../views/Orders.vue'
 import Storage from '../views/Storage.vue'
+import Products from '../views/Products.vue'
+
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -26,6 +28,10 @@ const router = createRouter({
       path: '/storage',
       name: 'storage',
       component: Storage
+    }, {
+      path: '/products',
+      name: 'products',
+      component: Products
     }
   ]
 })

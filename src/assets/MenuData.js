@@ -10,7 +10,14 @@ const data = [
         id: 3,
         label: "Storage",
         link: "/storage",
-        icon: "machine.svg",
+        icon: "warehouse.svg",
+        subitems: null
+    },
+    {
+        id:5,
+        label: "Products",
+        link: "/products",
+        icon: "3d-printer.svg",
         subitems: null
     },
     {

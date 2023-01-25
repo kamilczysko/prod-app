@@ -2,35 +2,9 @@
     <div class="space">
         <Wizard :visible="productWizardVisibility" v-on:off="hideProductWizard" v-on:add="send" v-on:update="update" :wizard="wizard" :input="wizardData"/>
         <nav>
-            <div class="search-wrapper">
-                <input type="text" placeholder="Filter by product's name" v-model="nameFilter">
-                <button class="serach-button"></button>
-            </div>
+            <Search type="text" placeholder="Filter by product's name" v-on:search="filterChange"/>
         </nav>
-        <table cellspacing="0"> 
-            <thead>
-                <tr class="header">
-                    <th>
-                            XId
-                    </th>
-                    <th>
-                            Name
-                    </th>
-                    <th>
-                            Price
-                    </th>
-                    <th>
-                            Descripion
-                    </th>
-                    <th>
-                            Action
-                    </th>
-                </tr>
-            </thead>
-            <tbody class="data" id="data">
-                <Row v-for="d in getVisibleData" :key=d.id actionButtons="true" :data="d" :row="row" v-on:edit="edit" v-on:remove="remove"/>
-            </tbody>
-        </table> 
+        <CustomTable :headers="headers" actionButtons=false :data="getVisibleData" :row="row"/>
         <button class="add" v-on:click="addProduct">&plus;</button>
     </div>       
 </template>
@@ -38,12 +12,16 @@
 <script>
 import Wizard from '../components/wizard/Wizard.vue'
 import Row from '../components/table/Row.vue'
+import Search from '../components/Search.vue'
+import CustomTable from '../components/table/CustomTable.vue'
 
 export default {
     name: "Products",
     components: {
         Wizard,
-        Row
+        Row, 
+        Search,
+        CustomTable
     },
     methods: {
         send(data){
@@ -71,6 +49,9 @@ export default {
         },
         remove(id) {
             this.data = Array.from(this.data).filter(e => e.id != id)
+        },
+        filterChange(filter) {
+            this.nameFilter = filter;
         }
     },
     data() {
@@ -89,13 +70,14 @@ export default {
                     {id: 3, label: "Price", type: "number", name: "price"}
                 ]
             },
-            row: ["id", "name", "price", "description"],
-            nameFilter: ""
+            row: ["id", "name", "price", "description"], // related to data keys
+            nameFilter: "",
+            headers: ["XId", "Name", "Price", "Description"] //table titles
         }
     },
         computed: {
             getVisibleData() {
-                if(this.nameFilter == "") {
+                if(this.nameFilter == "" || this.nameFilter == null) {
                     return this.data
                 }
                 return Array.from(this.data).filter(d => d.name.includes(this.nameFilter))
@@ -120,83 +102,6 @@ nav {
     width: 100%;
     height: 100%;
 }
-table {
-    margin: auto;
-    margin-top: 2vw;
-    width: 95%;
-    padding: 0px;
-    border-collapse: separate;
-    border-spacing: 0 .5vw;
-}
-
-th {
-    font-weight: 300;
-    height: 3vw;
-    border-left: none;
-    background: rgb(247, 247, 247);
-}
-th:nth-child(1){
-    border-top-left-radius: 6px;
-}
-th:last-child{
-    border-top-right-radius: 6px;
-}
-td {
-    font-weight: 100;
-    text-align: center;
-}
-.comment {
-    text-align: left;    
-}
-tbody {
-    margin-top: 1vw;
-    /* vertical-align: top; */
-}
-
-tbody tr:nth-child(2n) {
-}
-
-.search-wrapper input {
-    font-size: .9vw;
-    font-weight: 100;
-    width: 90%;
-    height: 80%;
-    margin: auto;
-    border: none;
-    margin: auto 1px;
-    
-    cursor: pointer;
-}
-
-.search-wrapper input:focus {
-    outline: none;
-
-}
-
-input::-webkit-outer-spin-button,
-input::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
-}
-
-.search-wrapper button{
-    border: none;
-    height: 80%;
-    width: 2vw;
-    background: none;
-    font-size: 1vw;
-    cursor: pointer;
-}
-
-.search-wrapper .serach-button {
-    background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAMAAABg3Am1AAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAADNQTFRFU1NT9fX1lJSUXl5e1dXVfn5+c3Nz6urqv7+/tLS0iYmJqampn5+fysrK39/faWlp////Vi4ZywAAABF0Uk5T/////////////////////wAlrZliAAABLklEQVR42rSWWRbDIAhFHeOUtN3/ags1zaA4cHrKZ8JFRHwoXkwTvwGP1Qo0bYObAPwiLmbNAHBWFBZlD9j0JxflDViIObNHG/Do8PRHTJk0TezAhv7qloK0JJEBh+F8+U/hopIELOWfiZUCDOZD1RADOQKA75oq4cvVkcT+OdHnqqpQCITWAjnWVgGQUWz12lJuGwGoaWgBKzRVBcCypgUkOAoWgBX/L0CmxN40u6xwcIJ1cOzWYDffp3axsQOyvdkXiH9FKRFwPRHYZUaXMgPLeiW7QhbDRciyLXJaKheCuLbiVoqx1DVRyH26yb0hsuoOFEPsoz+BVE0MRlZNjGZcRQyHYkmMp2hBTIzdkzCTc/pLqOnBrk7/yZdAOq/q5NPBH1f7x7fGP4C3AAMAQrhzX9zhcGsAAAAASUVORK5CYII=) center center no-repeat;
-    background-size: 1vw;
-}
-
-.search-wrapper{
-    margin-left: 2vw;
-}
-
 .add {
     width: 3vw;
     height: 3vw;

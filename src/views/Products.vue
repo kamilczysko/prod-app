@@ -4,7 +4,7 @@
         <nav>
             <Search type="text" placeholder="Filter by product's name" v-on:search="filterChange"/>
         </nav>
-        <CustomTable :headers="headers" actionButtons=false :data="getVisibleData" :row="row"/>
+        <CustomTable :headers="headers" actionButtons=false :data="getVisibleData" :row="row" v-on:edit="edit" v-on:remove="remove"/>
         <button class="add" v-on:click="addProduct">&plus;</button>
     </div>       
 </template>

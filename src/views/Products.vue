@@ -3,7 +3,7 @@
         <Wizard :visible="productWizardVisibility" v-on:off="hideProductWizard" v-on:add="send" v-on:update="update" :wizard="wizard" :input="wizardData"/>
         <nav>
             <div class="search-wrapper">
-                <input type="number" placeholder="Filter by product's name">
+                <input type="text" placeholder="Filter by product's name" v-model="nameFilter">
                 <button class="serach-button"></button>
             </div>
         </nav>
@@ -28,7 +28,7 @@
                 </tr>
             </thead>
             <tbody class="data" id="data">
-                <Row v-for="d in data" :key=d.id actionButtons="true" :data="d" :row="row" v-on:edit="edit" v-on:remove="remove"/>
+                <Row v-for="d in getVisibleData" :key=d.id actionButtons="true" :data="d" :row="row" v-on:edit="edit" v-on:remove="remove"/>
             </tbody>
         </table> 
         <button class="add" v-on:click="addProduct">&plus;</button>
@@ -89,9 +89,19 @@ export default {
                     {id: 3, label: "Price", type: "number", name: "price"}
                 ]
             },
-            row: ["id", "name", "price", "description"]
+            row: ["id", "name", "price", "description"],
+            nameFilter: ""
         }
-    }
+    },
+        computed: {
+            getVisibleData() {
+                if(this.nameFilter == "") {
+                    return this.data
+                }
+                return Array.from(this.data).filter(d => d.name.includes(this.nameFilter))
+            }
+        }
+    
 }
 </script>
 

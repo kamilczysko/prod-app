@@ -27,7 +27,7 @@
                 </tr>
             </thead>
             <tbody class="data" id="data">
-                <WorkstationRow v-for="d in data" :key=d.id :id=d.id :name=d.name :comment=d.comment :inRepair=d.inRepair />
+                <Row v-for="d in data" :key=d.id :data="d" :row="row" actionButtons="true"/>
             </tbody>
         </table> 
         <button class="add" v-on:click="addNewMachine">&plus;</button>
@@ -35,11 +35,12 @@
 </template>
 
 <script>
-import WorkstationRow from '../components/table/WorkstationRow.vue';
+import Row from '../components/table/Row.vue';
+
 export default {
     name: "Workstations",
     components: {
-        WorkstationRow
+        Row
     },
     methods: {
         addNewMachine() {
@@ -53,7 +54,8 @@ export default {
             data: [
                 {id: "1234", name: "mill", comment: "Machine working well when not in repair", inRepair: "No"},
                 {id: "4544", name: "lathe", comment: "Machine working well when not in repair", inRepair: "Yes"}
-            ]
+            ],
+            row: ["id", "name", "comment", "inRepair"]
         }
     }
 }

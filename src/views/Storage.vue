@@ -27,7 +27,6 @@
                 </tr>
             </thead>
             <tbody class="data" id="data">
-                <WorkstationRow v-for="d in data" :key=d.id :id=d.id :name=d.name :comment=d.comment :inRepair=d.inRepair />
             </tbody>
         </table> 
         <button class="add" v-on:click="addNewMachine">&plus;</button>
@@ -35,11 +34,9 @@
 </template>
 
 <script>
-import WorkstationRow from '../components/table/WorkstationRow.vue';
 export default {
     name: "Storage",
     components: {
-        WorkstationRow
     },
     methods: {
         addNewMachine() {

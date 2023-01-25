@@ -1,11 +1,9 @@
+
 <template>
     <tr v-if="visible">
-        <td>{{ id }}</td>
-        <td>{{ name }}</td>
-        <td class="comment">{{ comment }}</td>
-        <td>{{ inRepair }}</td>
-        <td class="action">
-            <button>&#x270E;</button>
+        <td v-for="k in Object.keys(getVisibleData)" :key="k">{{ data[k] }}</td>
+        <td class="action" v-if="actionButtons">
+            <button v-on:click="edit">&#x270E;</button>
             <button v-on:click="remove">&#9842;</button>
         </td>
     </tr>
@@ -13,16 +11,30 @@
 
 <script>
 export default {
-    name: "WorkspaceRow",
-    props: ["id", "name", "comment", "inRepair"],
+    name: "Row",
+    props: ["row", "data", "actionButtons"],
     methods: {
         remove() {
-            this.visible = false;
-        }
-    },
+            this.$emit("remove", this.data.id)
+
+        },
+        edit() {
+            console.log(this.data)
+            this.$emit("edit", this.data)
+        }  
+     },
     data() {
         return {
-            visible: true
+            visible: true,
+        }
+    },
+    computed: {
+        getVisibleData(){
+            let result = {};
+            Array.from(this.row).forEach(label => {
+                result[label] = this.data[label]
+            })
+            return result;
         }
     }
 }

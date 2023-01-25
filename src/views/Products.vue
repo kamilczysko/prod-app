@@ -28,7 +28,7 @@
                 </tr>
             </thead>
             <tbody class="data" id="data">
-                <ProductRow v-for="d in data" :key=d.id :id=d.id :name=d.name :description=d.description :price=d.price :currency=d.currency v-on:edit="edit"/>
+                <Row v-for="d in data" :key=d.id actionButtons="true" :data="d" :row="row" v-on:edit="edit" v-on:remove="remove"/>
             </tbody>
         </table> 
         <button class="add" v-on:click="addProduct">&plus;</button>
@@ -36,13 +36,14 @@
 </template>
 
 <script>
-import ProductRow from '../components/table/ProductRow.vue';
 import Wizard from '../components/wizard/Wizard.vue'
+import Row from '../components/table/Row.vue'
+
 export default {
     name: "Products",
     components: {
-        ProductRow,
-        Wizard
+        Wizard,
+        Row
     },
     methods: {
         send(data){
@@ -61,13 +62,15 @@ export default {
             this.productWizardVisibility = true;
         },
         update(data) {
-            console.log(data)
             const id = data.id;
             let element = Array.from(this.data).filter(d => d.id == id)[0];
             element.name = data.result.name;
             element.description = data.result.description;
             element.price = data.result.price;
             this.productWizardVisibility = false;
+        },
+        remove(id) {
+            this.data = Array.from(this.data).filter(e => e.id != id)
         }
     },
     data() {
@@ -85,7 +88,8 @@ export default {
                     {id: 2, label: "Description", type: "textArea", name: "description"},
                     {id: 3, label: "Price", type: "number", name: "price"}
                 ]
-            }
+            },
+            row: ["id", "name", "price", "description"]
         }
     }
 }

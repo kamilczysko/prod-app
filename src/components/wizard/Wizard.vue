@@ -1,11 +1,13 @@
 <template>
   <div class="wizard" v-if="visible">
     <h1>{{ wizard.header }}</h1>
-    <div class="row" v-for="field in wizard.fields" :key="field.id">
-        <p>{{ field.label }}</p>
-        <input type="text" v-if="field.type=='text'" :id="field.name" :value="getValue(field.name)"/>
-        <input type="number" v-if="field.type=='number'" :id="field.name" :value="getValue(field.name)"/>
-        <textarea type="text" v-if="field.type=='textArea'" :id="field.name" :value="getValue(field.name)"></textarea>
+    <div class="rows">
+        <div class="row" v-for="field in wizard.fields" :key="field.id">
+            <p>{{ field.label }}</p>
+            <input type="text" v-if="field.type=='text'" :id="field.name" :value="getValue(field.name)"/>
+            <input type="number" v-if="field.type=='number'" :id="field.name" :value="getValue(field.name)"/>
+            <textarea type="text" v-if="field.type=='textArea'" :id="field.name" :value="getValue(field.name)"></textarea>
+        </div>
     </div>
     <div class="buttons">
         <button v-on:click="send">Send</button>
@@ -52,10 +54,10 @@ export default {
 }
 </script>
 
-<style>
-h1 {
-    font-weight: 400;
-    font-size: 2vw;
+<style scoped>
+.wizard h1 {
+    font-weight: 200;
+    font-size: 1.5vw;
 }
 .wizard {
     display: flex;
@@ -65,20 +67,49 @@ h1 {
     position: absolute;
     top: 50%;
     left: 50%;
-    padding-top: 10px;
     transform: translate(-50%, -50%);
-    width: 40vw;
-    padding: auto;
-    background: rgb(231, 231, 231);
+    width: 50vw;
+    /* height: 90vh; */
+    background: rgb(241, 241, 241);
     border-radius: 20px;
     padding: 1vw 2vw;
 }
 
+.wizard input{
+    font-weight: 100;
+}
+
+.wizard textarea{
+    font-weight: 100;
+}
+
+.wizard input:focus{
+    /* border: 3px solid #ccc; */
+  /* -webkit-transition: 0.5s; */
+  /* transition: 0.5s; */
+  outline:none;
+}
+
+.wizard textarea:focus{
+    /* border: 3px solid #ccc; */
+  /* -webkit-transition: 0.5s; */
+  /* transition: 0.5s; */
+  outline:none;
+}
+
+.rows {
+    border-top: 1px solid black;
+    width: 100%;
+}
 .row {
     display: grid;
     grid-template-columns: 1fr 4fr;
     align-items: center;
     width: 100%;
+}
+
+.row p {
+    font-size: 1vw;
 }
 
 .buttons {

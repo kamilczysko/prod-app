@@ -1,58 +1,86 @@
 <template>
     <div class="space">
+        <Wizard :visible="productWizardVisibility" v-on:off="hideProductWizard" v-on:add="send" v-on:update="update" :wizard="wizard" :input="wizardData"/>
         <nav>
-            <div class="search-wrapper">
-                <input type="number" placeholder="Filter by stuff identifier">
-                <button class="serach-button"></button>
-            </div>
+            <Search type="text" placeholder="Filter by asset" v-on:search="filterChange"/>
         </nav>
-        <table cellspacing="0"> 
-            <thead>
-                <tr class="header">
-                    <th>
-                            XId
-                    </th>
-                    <th>
-                            Name
-                    </th>
-                    <th>
-                            Descripion
-                    </th>
-                    <th>
-                            Available
-                    </th>
-                    <th>
-                            Action
-                    </th>
-                </tr>
-            </thead>
-            <tbody class="data" id="data">
-            </tbody>
-        </table> 
+        <CustomTable :headers="headers" actionButtons=true :data="getVisibleData" :row="row" v-on:edit="edit" v-on:remove="remove"/>
         <button class="add" v-on:click="addNewMachine">&plus;</button>
     </div>       
 </template>
 
 <script>
+import Wizard from '../components/wizard/Wizard.vue'
+import Row from '../components/table/Row.vue'
+import Search from '../components/Search.vue'
+import CustomTable from '../components/table/CustomTable.vue'
 export default {
     name: "Storage",
     components: {
+        CustomTable, Row, Search, Wizard
     },
     methods: {
         addNewMachine() {
-            this.data.push(
-                {id: "91992", name: "drill", comment: "Machine working well when not in repair", inRepair: "Yes"}
-            )
+                this.productWizardVisibility = true;
+        },
+        hideProductWizard() {
+            this.productWizardVisibility = false;
+            this.wizardData = null;
+        },
+        edit(data){
+            this.wizardData = data;
+            this.productWizardVisibility = true;
+        },
+        remove(id) {
+            this.data = Array.from(this.data).filter(e => e.id != id)
+        },
+        send(data) {
+            this.data.push(data);
+            this.productWizardVisibility = false;
+        },update(data) {
+            const id = data.id;
+            let element = Array.from(this.data).filter(d => d.id == id)[0];
+            element.name = data.result.name;
+            element.description = data.result.description;
+            element.price = data.result.quantity;
+            element.unit = data.result.unit;
+            this.productWizardVisibility = false;
+        },
+        filterChange(filter) {
+            this.filter = filter;
         }
     },
     data() {
         return {
             data: [
-                {id: "1234", name: "mill", comment: "Machine working well when not in repair", inRepair: "No"},
-                {id: "4544", name: "lathe", comment: "Machine working well when not in repair", inRepair: "Yes"}
-            ]
+                {id: "1234", name: "mill", comment: "Machine working well when not in repair", quantiy: 1, unit: "pckgs"},
+                {id: "4544", name: "lathe", comment: "Machine working well when not in repair", quantity: 12, unit: "kg"}
+            ],
+            headers: ["XId", "Name", "Description", "Quantity", "Unit"],
+            row: ["id", "name", "comment", "quantity", "unit"],
+
+            productWizardVisibility: false,
+            wizardData: null,
+            wizard: {
+                header: "New Asset",
+                fields: [
+                    {id: 1, label: "Name", type: "text", name: "name"},
+                    {id: 2, label: "Description", type: "textArea", name: "comment"},
+                    {id: 3, label: "Quantity", type: "number", name: "quantity"},
+                    {id: 4, label: "Unit", type: "text", name: "unit"}
+                ]
+            },
+            filter: ""
         }
-    }
+    },
+        computed: {
+            getVisibleData() {
+                if(this.filter == "" || this.filter == null) {
+                    return this.data    
+                }
+                return Array.from(this.data).filter(d => d.name.includes(this.filter) || (d.id != null && d.id.includes(this.filter)))
+            }
+        }
 }
 </script>
 
